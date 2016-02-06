@@ -29,7 +29,7 @@ data (container :: Symbol) :~ (properties :: *)
 infixr 7 :~
 
 data (first :: *) :& (second :: *) = first :& second deriving (Eq, Show, Functor, Traversable, Foldable)
-infixr 6 :&:
+infixr 8 :&:
 
 data (key :: *) := (value :: *)
 infixr 9 :=

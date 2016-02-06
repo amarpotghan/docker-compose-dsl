@@ -45,16 +45,16 @@ instance (HasGenerator a, HasGenerator b) => HasGenerator (a :& b) where
   type Handler (a :& b) = Handler a :& Handler b
   generate _ ( a :& b) = generate (Proxy :: Proxy a) a *> generate (Proxy :: Proxy b) b
   
-instance {-# OVERLAPPING #-} (KnownSymbol a, Show value, ToStringy s) => HasGenerator (s := Capture a value) where
+instance (KnownSymbol a, Show value, ToStringy s) => HasGenerator (s := Capture a value) where
   type Handler (s := Capture a value) = value
   generate _ v = tell $ space <> space <> toStringy (Proxy :: Proxy s) <> space <> (show v) <> newLine
     
 
-instance {-# OVERLAPPABLE #-} (Show a, ToStringy s) => HasGenerator (s := Value a) where
+instance (Show a, ToStringy s) => HasGenerator (s := Value a) where
   type Handler (s := Value a) = a
   generate _ v = tell $ space <> space <> toStringy (Proxy :: Proxy s) <> colon <> space <> (show v) <> newLine
 
-instance {-# OVERLAPPABLE #-} (Show a, ToStringy s) => HasGenerator (s := Values a) where
+instance (Show a, ToStringy s) => HasGenerator (s := Values a) where
   type Handler (s := Values a) = [ a ]
   generate _ v = let spit a = space <> space <> space <> space <> hyphen <> show a <> newLine
                  in tell $ space <> space <> toStringy (Proxy :: Proxy s) <> colon <> space <> foldMap spit v
