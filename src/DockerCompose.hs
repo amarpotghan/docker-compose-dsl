@@ -2,6 +2,8 @@ module DockerCompose
     (
       module DockerCompose.API
     , module DockerCompose.Generator
+    , toFile
+    , asString
     ) where
 
 import           Control.Monad.Writer    (runWriter)
