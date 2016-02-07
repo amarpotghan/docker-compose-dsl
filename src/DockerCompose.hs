@@ -6,14 +6,16 @@ module DockerCompose
     , asString
     ) where
 
-import           Control.Monad.Writer    (runWriter)
+import           Control.Monad.Writer    (execWriter)
 import           Data.Proxy
 import           DockerCompose.API
 import           DockerCompose.Generator
 import           System.IO
 
 toFile :: (HasGenerator a) => FilePath -> Proxy a -> Handler a -> IO ()
-toFile file p = writeFile file . snd . runWriter . generate p
+toFile file p = writeFile file . execWriter . generate p
 
 asString :: (HasGenerator a) => Proxy a -> Handler a -> String
-asString p = snd . runWriter . generate p
+asString p = execWriter . generate p
+
+
