@@ -21,7 +21,7 @@ import Data.Text.Lazy as L
 
 
 class HasGenerator a where
-  type family Handler a :: *
+  type family Handler a :: k
   generate :: (MonadState ComposeTree m) => Proxy a -> Handler a -> m ()
 
 instance (HasGenerator a, HasGenerator b) => HasGenerator ( a :&: b ) where
@@ -30,7 +30,7 @@ instance (HasGenerator a, HasGenerator b) => HasGenerator ( a :&: b ) where
 
 instance (HasGenerator rest, KnownSymbol current) => HasGenerator (current :~ rest) where
   type Handler (current :~ rest) = Handler rest
-  generate _ restHandler = modify (\ xs -> (single . L.pack . symbolVal $ (Proxy :: Proxy current)) : xs) *> generate (Proxy :: Proxy rest) restHandler
+  generate _ restHandler = modify (++ [(single . L.pack . symbolVal $ (Proxy :: Proxy current))]) *> generate (Proxy :: Proxy rest) restHandler
 
 instance (HasGenerator a, HasGenerator b) => HasGenerator (a :& b) where
   type Handler (a :& b) = Handler a :& Handler b
