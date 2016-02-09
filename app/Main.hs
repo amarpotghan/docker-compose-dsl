@@ -7,23 +7,28 @@ import           Data.Proxy
 import           DockerCompose
 
 main :: IO ()
-main = toFile "docker-compose.yml" myDC ("mycompany/app" :& [ "mail" ] :&: "mycompany/mail" :& [ "someexternal" ] :&: () :& ())
+main = toFile "docker-compose.yml" myDC dslArgs
 
-myDC :: Proxy DSL
-myDC = Proxy
+type First = "app" :~
+              Image := Value String :&
+              VolumesFrom := Values String
 
-newtype ContainerName = C String deriving Show
-
+type Second = "mail" :~
+              Image := Value String :&
+              VolumesFrom := Values String
+              
 type Third = "newOne" :~
                 Image := "capitalmatch/newImage"
              :& VolumesFrom := '[ "mail", "app" ]
 
-type DSL = "app" :~
-              Image := Value String :&
-              VolumesFrom := Values String
-          :&:
-            "mail" :~
-              Image := Value String :&
-              VolumesFrom := Values String
+type DSL = First :&: Second :&: Third
 
-          :&: Third
+myDC :: Proxy DSL
+myDC = Proxy
+
+dslArgs = containerFirstArgs :&: containerSecondArgs :&: containerThirdArgs
+containerFirstArgs = "mycompany/app" :& [ "mail" ]
+containerSecondArgs = "mycompany/mail" :& [ "someexternal" ]
+containerThirdArgs = () :& () -- (should) no arguments needed!
+
+
