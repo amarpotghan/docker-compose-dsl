@@ -7,8 +7,10 @@ data VolumesFrom
 data Environment
 data Name
 
+-- | TODO: %s/String/Text
+
 class ToStringy a where
-  toStringy :: Proxy a -> String
+  toStringy :: proxy a -> String
 
 instance ToStringy Image where
   toStringy _ = "image"

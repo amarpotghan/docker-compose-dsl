@@ -10,7 +10,6 @@ import           DockerCompose.SpecialChars
 class Serializable a where
   serialize :: a -> L.Text
 
-
 instance Serializable NodeName where
   serialize (NodeName name) = name
 
@@ -33,7 +32,7 @@ instance Serializable Tag where
   serialize (Tag t) = t
 
 instance Serializable Property where
-  serialize (SingleVal k v) = serialize (Space <> Space) <>  serialize k <> serialize (Colon <> Space) <> serialize v <> serialize NewLine
+  serialize (SingleVal k v) = serialize (Space <> Space) <> serialize k <> serialize (Colon <> Space) <> serialize v <> serialize NewLine
   serialize (PlainList k vs) = serializeWithList k vs
   serialize (TaggedList k kvs) = serializeWithList k kvs
 

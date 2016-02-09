@@ -3,6 +3,7 @@
 {-# LANGUAGE DeriveFunctor     #-}
 {-# LANGUAGE DeriveTraversable #-}
 {-# LANGUAGE KindSignatures    #-}
+{-# LANGUAGE PolyKinds         #-}
 {-# LANGUAGE TypeOperators     #-}
 module DockerCompose.API where
 
@@ -31,7 +32,7 @@ infixr 7 :~
 data (first :: *) :& (second :: *) = first :& second deriving (Eq, Show, Functor, Traversable, Foldable)
 infixr 8 :&
 
-data (key :: *) := (value :: *)
+data (key :: *) := (value :: k)
 infixr 9 :=
 
 data Value (value :: *)

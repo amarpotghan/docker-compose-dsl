@@ -23,13 +23,13 @@ import           DockerCompose.Serialize
 import           DockerCompose.SpecialChars
 import           System.IO
 
-toFile :: (HasGenerator a) => FilePath -> Proxy a -> Handler a -> IO ()
+toFile :: (HasGenerator a) => FilePath -> Proxy a -> Arg a -> IO ()
 toFile file p = (writeFile file . L.unpack . serialize =<<) . execDockerCompose mempty . generate p
 
-asText :: (HasGenerator a) => Proxy a -> Handler a -> Text
+asText :: (HasGenerator a) => Proxy a -> Arg a -> Text
 asText p = serialize . runIdentity . execDockerCompose mempty . generate p
 
-composeTree :: (HasGenerator a) => Proxy a -> Handler a -> ComposeTree
+composeTree :: (HasGenerator a) => Proxy a -> Arg a -> ComposeTree
 composeTree p = runIdentity . execDockerCompose mempty . generate p
 
 
