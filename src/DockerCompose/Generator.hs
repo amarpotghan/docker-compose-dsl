@@ -52,6 +52,18 @@ instance (Show a, ToStringy s) => HasGenerator (s := Values a) where
   type Arg (s := Values a) = [ a ]
   generate _ v = modify $ appendProperty $ PlainList (KeyRep $ L.pack $ toStringy (Proxy :: Proxy s)) (ValueRep . L.pack . show <$> v)
 
--- instance (KnownSymbol a, ToStringy s) => HasGenerator (s := Values (a ': t)) where
---   type Arg (s := Values a) = ()
---   generate _ _ = modify $ appendProperty $ PlainList (KeyRep $ L.pack $ toStringy (Proxy :: Proxy s)) (ValueRep . L.pack . show <$> v)
+instance (KnownSymbol a, ToStringy s, HasGenerator rest) => HasGenerator (s := (a ': rest)) where
+   type Arg (s := (a ': rest)) = Arg (a ': rest)
+   generate _ v = do
+     modify $ appendProperty $ PlainList (KeyRep $ L.pack $ toStringy (Proxy :: Proxy s)) []
+     generate (Proxy :: Proxy (a ': rest)) v
+     
+instance (KnownSymbol a, HasGenerator rest) => HasGenerator (a ': rest) where
+  type Arg (a ': rest) = Arg rest
+  generate _ restHandler = do
+    modify $ appendValue $ ValueRep (L.pack $ symbolVal (Proxy :: Proxy a))
+    generate (Proxy :: Proxy rest) restHandler
+
+instance HasGenerator '[] where
+  type Arg '[] = ()
+  generate _ _ = return ()

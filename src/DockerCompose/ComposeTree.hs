@@ -42,8 +42,22 @@ data Property = SingleVal KeyRep ValueRep
 
 -- TODO: more efficently Traversable
 appendProperty :: Property -> ComposeTree -> ComposeTree
-appendProperty p = L.reverse . go . L.reverse where
-  go (x : xs) = x { nodeProperties = (nodeProperties x) <> [ p ] } : xs
+appendProperty p = onLast addProp where
+  addProp cn = cn { nodeProperties = (nodeProperties cn) ++ [ p ] }
+
+appendValue :: ValueRep -> ComposeTree -> ComposeTree
+appendValue v = onLast (\ cn -> cn { nodeProperties = onLast addVal (nodeProperties cn) } ) where
+  addVal (PlainList k vs) = PlainList k ( v : vs)
+  addVal x = x
+
+-- appendPairedElem :: PairedElem -> ComposeTree -> ComposeTree
+-- appendPairedElem v = onLast (\ cn -> cn { nodeProperties = onLast addVal (nodeProperties cn) } ) where
+--   addVal (TaggedList k vs) = TaggedList k ( v : vs)
+--   addVal x = x
+
+onLast :: (a -> a) -> [ a ] -> [ a ]
+onLast f = L.reverse . go . L.reverse where
+  go (x : xs) = f x : xs
   go [] = []
 
 execDockerCompose :: (Monad m) => ComposeTree -> DockerCompose m a -> m ComposeTree
