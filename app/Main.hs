@@ -7,7 +7,7 @@ import           Data.Proxy
 import           DockerCompose
 
 main :: IO ()
-main = toFile "docker-compose.yml" myDC dslArgs
+main = toFile "docker-compose.yml" myDSL dslArgs
 
 type First = "app" :~
               Image := Value String :&
@@ -23,8 +23,8 @@ type Third = "newOne" :~
 
 type DSL = First :&: Second :&: Third
 
-myDC :: Proxy DSL
-myDC = Proxy
+myDSL :: Proxy DSL
+myDSL = Proxy
 
 dslArgs = containerFirstArgs :&: containerSecondArgs :&: containerThirdArgs
 containerFirstArgs = "mycompany/app" :& [ "mail" ]
