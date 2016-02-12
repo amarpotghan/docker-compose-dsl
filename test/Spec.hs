@@ -1,2 +1,8 @@
+module Main where
+
+import           DockerCompose
+import           DockerComposeSpec
+import           Test.Hspec
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = mapM_ hspec [ dockerComposeSpec ]
+

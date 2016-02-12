@@ -47,7 +47,7 @@ appendProperty p = onLast addProp where
 
 appendValue :: ValueRep -> ComposeTree -> ComposeTree
 appendValue v = onLast (\ cn -> cn { nodeProperties = onLast addVal (nodeProperties cn) } ) where
-  addVal (PlainList k vs) = PlainList k ( v : vs)
+  addVal (PlainList k vs) = PlainList k (vs ++ [ v ])
   addVal x = x
 
 -- appendPairedElem :: PairedElem -> ComposeTree -> ComposeTree
