@@ -48,7 +48,7 @@ dockerComposeSpec = describe "Specifications" $ do
 
       composeTree1 `shouldBe` composeTree2
 
-    it ":& should be associative" $ do
+    it ":& is associative" $ do
       composeTree1 <- createTree (Proxy :: Proxy PropertyLeftGroup) ((() :& ()) :& ())
       composeTree2 <- createTree (Proxy :: Proxy PropertyRightGroup) (() :& (() :& ()))
 
