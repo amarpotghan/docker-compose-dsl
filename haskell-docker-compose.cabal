@@ -1,14 +1,14 @@
 name:                haskell-docker-compose
 version:             0.1.0.0
-synopsis:            Initial project template from stack
-description:         Please see README.md
-homepage:            http://github.com/githubuser/haskell-docker-compose#readme
+synopsis:            A Type level dsl for docker compose
+description:         See readme
+homepage:            http://github.com/amarpotghan/docker-compose-dsl#readme
 license:             BSD3
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2010 Author Here
-category:            Web
+author:              Amar Potghan
+maintainer:          amarpotghan@gmail.com
+copyright:           2016 Amar Potghan
+category:            
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
@@ -25,7 +25,6 @@ library
   build-depends:       base >= 4.7 && < 5
                      , mtl
                      , text
-                     , containers
   default-language:    Haskell2010
 
 executable haskell-docker-compose-exe
@@ -49,4 +48,4 @@ test-suite haskell-docker-compose-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/haskell-docker-compose
+  location: https://github.com/amarpotghan/docker-compose-dsl
