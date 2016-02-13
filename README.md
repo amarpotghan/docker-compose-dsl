@@ -8,6 +8,8 @@ This library is incomplete and in heavy development. It has a LOT to improve hen
 
 # Documentaion (Pending)
 
+[Example](https://github.com/amarpotghan/docker-compose-dsl/blob/master/app/Main.hs)
+
 
 
 
