@@ -50,11 +50,6 @@ appendValue v = onLast (\ cn -> cn { nodeProperties = onLast addVal (nodePropert
   addVal (PlainList k vs) = PlainList k (vs ++ [ v ])
   addVal x = x
 
--- appendPairedElem :: PairedElem -> ComposeTree -> ComposeTree
--- appendPairedElem v = onLast (\ cn -> cn { nodeProperties = onLast addVal (nodeProperties cn) } ) where
---   addVal (TaggedList k vs) = TaggedList k ( v : vs)
---   addVal x = x
-
 onLast :: (a -> a) -> [ a ] -> [ a ]
 onLast f = L.reverse . go . L.reverse where
   go (x : xs) = f x : xs
