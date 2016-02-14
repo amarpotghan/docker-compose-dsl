@@ -19,7 +19,8 @@ import DockerCompose.ComposeTree
 import Data.String
 import Data.Text.Lazy as L
 
-
+data NoArg = NoArg
+  
 class HasGenerator a where
   type family Arg a :: k
   generate :: (MonadState ComposeTree m)
@@ -66,7 +67,7 @@ instance ( Show a, ToStringy s) => HasGenerator (s := Value a) where
 
 instance (KnownSymbol a, ToStringy s) => HasGenerator (s := a) where
 
-  type Arg (s := a) = ()
+  type Arg (s := a) = NoArg
 
   generate _ _ = modify $ appendProperty (SingleVal k v) where
     k = KeyRep . L.pack $ toStringy (Proxy :: Proxy s)
@@ -100,6 +101,6 @@ instance (KnownSymbol a, HasGenerator rest) => HasGenerator (a ': rest) where
 
 instance HasGenerator '[] where
 
-  type Arg '[] = ()
+  type Arg '[] = NoArg
 
   generate _ _ = return ()

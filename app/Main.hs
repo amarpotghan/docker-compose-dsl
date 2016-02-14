@@ -16,7 +16,7 @@ type First = "app" :~
 type Second = "mail" :~
               Image := Value String :&
               VolumesFrom := Values String
-              
+
 type Third = "newOne" :~
                 Image := "capitalmatch/newImage"
              :& VolumesFrom := '[ "mail", "app" ]
@@ -29,6 +29,6 @@ myDSL = Proxy
 dslArgs = containerFirstArgs :&: containerSecondArgs :&: containerThirdArgs
 containerFirstArgs = "mycompany/app" :& [ "mail" ]
 containerSecondArgs = "mycompany/mail" :& [ "someexternal" ]
-containerThirdArgs = () :& () -- (should) no arguments needed!
+containerThirdArgs = NoArg :& NoArg -- (should) no arguments needed!
 
 

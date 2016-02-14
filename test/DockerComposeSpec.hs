@@ -31,11 +31,11 @@ dockerComposeSpec = describe "Specifications" $ do
     let createTree p =  execDockerCompose mempty . generate p
 
     it "on (:~) should add new node to the tree" $ do
-      composeTree <- createTree (Proxy :: Proxy NameBinder) ()
+      composeTree <- createTree (Proxy :: Proxy NameBinder) NoArg
       head composeTree `shouldBe` ContainerNode (NodeName "app") [SingleVal (KeyRep "image") (ValueRep "something")]
 
     it "on a type level list of strings should add PlainList to the tree" $ do
-      composeTree <- createTree (Proxy :: Proxy PlainListTest) ()
+      composeTree <- createTree (Proxy :: Proxy PlainListTest) NoArg
       (nodeProperties . head $ composeTree) `shouldBe` [ PlainList (KeyRep "volumes_from") $ ValueRep <$> ["cont1", "cont2", "cont3"] ]
 
     it "accepts arguments of specified type" $ do
@@ -43,14 +43,14 @@ dockerComposeSpec = describe "Specifications" $ do
       (nodeProperties . head $ composeTree) `shouldBe` [ SingleVal (KeyRep "image") (ValueRep "\"TestArg\"")]
 
     it ":&: is associative" $ do
-      composeTree1 <- createTree (Proxy :: Proxy LeftGroup) ((() :&: ()) :&: ())
-      composeTree2 <- createTree (Proxy :: Proxy RightGroup) (() :&: (() :&: ()))
+      composeTree1 <- createTree (Proxy :: Proxy LeftGroup) ((NoArg :&: NoArg) :&: NoArg)
+      composeTree2 <- createTree (Proxy :: Proxy RightGroup) (NoArg :&: (NoArg :&: NoArg))
 
       composeTree1 `shouldBe` composeTree2
 
     it ":& is associative" $ do
-      composeTree1 <- createTree (Proxy :: Proxy PropertyLeftGroup) ((() :& ()) :& ())
-      composeTree2 <- createTree (Proxy :: Proxy PropertyRightGroup) (() :& (() :& ()))
+      composeTree1 <- createTree (Proxy :: Proxy PropertyLeftGroup) ((NoArg :& NoArg) :& NoArg)
+      composeTree2 <- createTree (Proxy :: Proxy PropertyRightGroup) (NoArg :& (NoArg :& NoArg))
 
       composeTree1 `shouldBe` composeTree2
 
