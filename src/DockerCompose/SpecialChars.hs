@@ -17,7 +17,7 @@ instance Show SpecialChars where
   show NewLine = "\n"
   show Equals = "="
   show BlankChar = mempty
-  show (x :. y) = show x `mappend` show y
+  show (x :. y) = show $ x `mappend` y
 
 
 instance Monoid SpecialChars where
