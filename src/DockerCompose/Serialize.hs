@@ -20,7 +20,7 @@ instance Serializable ValueRep where
   serialize (ValueRep value) = serialize Space <> value
 
 instance Serializable SpecialChar where
-  serialize = L.pack . toString
+  serialize = toText
 
 instance (Serializable a) => Serializable [ a ] where
   serialize = foldMap serialize
