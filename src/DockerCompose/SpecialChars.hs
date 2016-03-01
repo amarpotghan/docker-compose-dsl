@@ -1,25 +1,25 @@
 module DockerCompose.SpecialChars where
 
 
-data SpecialChars = Space
+data SpecialChar = Space
                   | Colon
                   | Hyphen
                   | NewLine
                   | Equals
                   | BlankChar
-                  | SpecialChars :. SpecialChars
-                    deriving (Eq)
+                  | SpecialChar :. SpecialChar
+                    deriving (Eq, Show)
 
-instance Show SpecialChars where
-  show Space = " "
-  show Colon = ":"
-  show Hyphen = "-"
-  show NewLine = "\n"
-  show Equals = "="
-  show BlankChar = mempty
-  show (x :. y) = show $ x `mappend` y
+toString :: SpecialChar -> String
+toString Space = " "
+toString Colon = ":"
+toString Hyphen = "-"
+toString NewLine = "\n"
+toString Equals = "="
+toString BlankChar = mempty
+toString (x :. y) = show $ x `mappend` y
 
 
-instance Monoid SpecialChars where
+instance Monoid SpecialChar where
   mempty = BlankChar
   x `mappend` y = x :. y
