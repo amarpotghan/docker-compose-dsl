@@ -4,7 +4,7 @@ This is a very experimental approach to encode docker-compose file at a type lev
 
 Design is heavily inspired by servant and *might* be overkill for given task but... :)
 
-This library is incomplete and in heavy development. It has a LOT to improve hence suggestions/feedbacks/critiques are welcome!
+This library is incomplete and not being developed anymore. 
 
 # Documentaion (Pending)
 
