@@ -26,19 +26,31 @@ instance (Serializable a) => Serializable [ a ] where
   serialize = foldMap serialize
 
 instance Serializable PairedElem where
-  serialize (PairedElem t v) = serialize t <> serialize Equals <> serialize v
+  serialize (PairedElem t v) =
+    serialize t <>
+    serialize Equals <>
+    serialize v
 
 instance Serializable Tag where
   serialize (Tag t) = t
 
 instance Serializable Property where
-  serialize (SingleVal k v) = serialize (Space <> Space) <> serialize k <> serialize (Colon <> Space) <> serialize v <> serialize NewLine
+  serialize (SingleVal k v) =
+    serialize (Space <> Space) <>
+    serialize k <>
+    serialize (Colon <> Space) <>
+    serialize v <>
+    serialize NewLine
   serialize (PlainList k vs) = serializeWithList k vs
   serialize (TaggedList k kvs) = serializeWithList k kvs
 
 instance Serializable ContainerNode where
-  serialize (ContainerNode name ps) = serialize name <> serialize (Colon <> NewLine) <> serialize ps
+  serialize (ContainerNode name ps) =
+    serialize name <>
+    serialize (Colon <> NewLine) <>
+    serialize ps
 
 serializeWithList :: (Serializable k, Serializable v) => k -> [ v ] -> Text
-serializeWithList k vs = let f = (<> serialize NewLine) . (serialize (Space <> Space <> Space <> Space <> Hyphen <> Space) <>) . serialize
-                         in serialize (Space <> Space) <> serialize k <> serialize (Colon <> NewLine) <> foldMap f vs
+serializeWithList k vs =
+  let f = (<> serialize NewLine) . (serialize (Space <> Space <> Space <> Space <> Hyphen <> Space) <>) . serialize
+  in serialize (Space <> Space) <> serialize k <> serialize (Colon <> NewLine) <> foldMap f vs

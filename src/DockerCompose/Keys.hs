@@ -7,8 +7,6 @@ data VolumesFrom
 data Environment
 data Name
 
--- | TODO: %s/String/Text
-
 class ToStringy a where
   toStringy :: proxy a -> String
 
